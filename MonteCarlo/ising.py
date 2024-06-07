@@ -4,7 +4,7 @@ class Ising:
     def __init__(self, target):
         self.target = target
 
-    def _step(self, T):
+    def step(self, T):
         n = self.target.lattice.shape[0]
         x, y = np.random.randint(0, n, size=2)
         dE = self.target.delta_energy(x, y)
@@ -21,7 +21,7 @@ class Ising:
             energies = []
             magnetizations = []
             for _ in range(steps):
-                self._step(T * j)
+                self.step(T * j)
                 energies.append(self.target.energy())
                 magnetizations.append(self.target.magnetization())
 
