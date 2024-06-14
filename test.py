@@ -54,7 +54,7 @@ H_values = []
 magnetizations = []
 energies = []
 
-for data in ising.run_non_eq(T=8, H_start=0, H_end=1, dH=0.1):
+for data in ising.run_non_eq(T=8, H_start=0, H_end=10, dH=0.1):
     H, mag, en = data
     print(f'{H:.03f}, {mag:6.03f}, {en:6.03f}')
     H_values.append(H)
@@ -66,9 +66,13 @@ plt.subplots_adjust(wspace=0.7)
 fig.set_facecolor('white')
 
 ax[0].plot(magnetizations, marker='o', linestyle='-', color='black')
-ax[0].set_xlabel('External Field (H)')
 ax[0].set_ylabel('Magnetization')
 
 ax[1].plot(energies, marker='o', linestyle='-', color='blue')
-ax[1].set_xlabel('External Field (H)')
 ax[1].set_ylabel('Energy')
+
+for a in ax:
+    length = len(H_values)
+    positions = [0, length//4, length//2, 3*length//4, length-1]
+    labels = [f"{H_values[pos]:.1f}" for pos in positions]
+    a.set_xticks(positions, labels)
