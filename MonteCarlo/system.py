@@ -29,7 +29,7 @@ class System:
                 spin = self.lattice[i, j]
                 interaction_energy -= self.J * spin * sum(self.neighbors(i, j))
                 field_energy -= self.H * spin
-        return (interaction_energy / 2) + field_energy
+        return ((interaction_energy / 2) + field_energy) / self.lattice.size
 
     def magnetization(self):
         return np.sum(self.lattice) / self.lattice.size
@@ -38,10 +38,10 @@ class System:
         beta = 1 / T
         avg_energy = np.mean(energies)
         avg_energy_sq = np.mean(np.square(energies))
-        return (avg_energy_sq - avg_energy**2) * beta**2 / self.lattice.size
+        return (avg_energy_sq - avg_energy**2) * beta**2
 
     def susceptibility(self, magnetizations, T):
         beta = 1 / T
         avg_mag = np.mean(magnetizations)
         avg_mag_sq = np.mean(np.square(magnetizations))
-        return (avg_mag_sq - avg_mag**2) * beta / self.lattice.size
+        return (avg_mag_sq - avg_mag**2) * beta
