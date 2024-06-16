@@ -12,7 +12,7 @@ energies = []
 specific_heats = []
 susceptibilities = []
 
-for data in ising.run_eq(T_start=10, T_end=0.1, dT=0.1, steps=1000):
+for data in ising.run_eq(T_start=10, T_end=0.1, dT=0.1, steps=5000):
     T, mag, en, heat, sus = data
     print(f'{T:.03f}, {mag:6.03f}')
     temperatures.append(T)
@@ -21,8 +21,9 @@ for data in ising.run_eq(T_start=10, T_end=0.1, dT=0.1, steps=1000):
     specific_heats.append(heat)
     susceptibilities.append(sus)
 
-fig, ax = plt.subplots(1, 4, figsize=(10, 5))
-plt.subplots_adjust(wspace=0.7)
+fig, ax = plt.subplots(1, 4, figsize=(20, 5))
+plt.rcParams.update({'font.size': 12})
+plt.subplots_adjust(wspace=0.5)
 fig.set_facecolor('white')
 
 ax[0].plot(temperatures, magnetizations, marker='o', linestyle='-', color='black')
@@ -54,7 +55,7 @@ H_values = []
 magnetizations = []
 energies = []
 
-for data in ising.run_non_eq(T=8, H_start=0, H_end=10, dH=0.1):
+for data in ising.run_non_eq(T=0.8, H_lmax=-5, H_rmax=5):
     H, mag, en = data
     print(f'{H:.03f}, {mag:6.03f}, {en:6.03f}')
     H_values.append(H)
@@ -63,16 +64,17 @@ for data in ising.run_non_eq(T=8, H_start=0, H_end=10, dH=0.1):
 
 fig, ax = plt.subplots(1, 2, figsize=(10, 5))
 plt.subplots_adjust(wspace=0.7)
+plt.rcParams.update({'font.size': 12})
 fig.set_facecolor('white')
 
-ax[0].plot(magnetizations, marker='o', linestyle='-', color='black')
+ax[0].plot(H_values, magnetizations, linestyle='-', color='black')
 ax[0].set_ylabel('Magnetization')
 
-ax[1].plot(energies, marker='o', linestyle='-', color='blue')
+ax[1].plot(H_values, energies, linestyle='-', color='blue')
 ax[1].set_ylabel('Energy')
 
-for a in ax:
-    length = len(H_values)
-    positions = [0, length//4, length//2, 3*length//4, length-1]
-    labels = [f"{H_values[pos]:.1f}" for pos in positions]
-    a.set_xticks(positions, labels)
+# for a in ax:
+#     length = len(H_values)
+#     positions = [0, length//4, length//2, 3*length//4, length-1]
+#     labels = [f"{H_values[pos]:.1f}" for pos in positions]
+#     a.set_xticks(positions, labels)
